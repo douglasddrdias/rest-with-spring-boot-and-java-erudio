@@ -5,13 +5,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.douglasddr.restwithspringbootandjavaerudio.service.CalculadoraService;
+import com.douglasddr.restwithspringbootandjavaerudio.services.CalculadoraServices;
 
 @RestController
 public class MathController {
 		
 	@Autowired
-	CalculadoraService calculadoraService;
+	CalculadoraServices calculadoraService;
 	
 	@GetMapping(value = "/sum/{numberOne}/{numberTwo}")
 	public Double sum(

@@ -1,4 +1,4 @@
-package com.douglasddr.restwithspringbootandjavaerudio.service;
+package com.douglasddr.restwithspringbootandjavaerudio.services;
 
 import static com.douglasddr.restwithspringbootandjavaerudio.utils.DoubleUtils.ZERO;
 import static com.douglasddr.restwithspringbootandjavaerudio.utils.DoubleUtils.convertToDouble;
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import com.douglasddr.restwithspringbootandjavaerudio.exceptions.UnsupportedMathOperationException;
 
 @Service
-public class CalculadoraService {
+public class CalculadoraServices {
 
 	private static final String PLEASE_SET_A_NUMERIC_VALUE = "Please set a numeric value!";
 	
