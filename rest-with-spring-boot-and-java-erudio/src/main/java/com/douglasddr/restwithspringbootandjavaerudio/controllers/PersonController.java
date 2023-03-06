@@ -15,11 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.douglasddr.restwithspringbootandjavaerudio.data.vo.v1.PersonVO;
-import com.douglasddr.restwithspringbootandjavaerudio.data.vo.v2.PersonVOV2;
 import com.douglasddr.restwithspringbootandjavaerudio.services.PersonServices;
 
 @RestController
-@RequestMapping("/person")
+@RequestMapping("/api/person/v1")
 public class PersonController {
 	
 	@Autowired
@@ -35,10 +34,6 @@ public class PersonController {
 		return service.findById(id);
 	}
 	
-	@PostMapping(value = "/v2", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public PersonVOV2 create(@RequestBody PersonVOV2 PersonVO) throws Exception {
-		return service.createV2(PersonVO);
-	}
 	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public PersonVO createV2(@RequestBody PersonVO PersonVO) throws Exception {
 		return service.create(PersonVO);
