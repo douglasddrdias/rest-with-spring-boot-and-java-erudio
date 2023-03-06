@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.douglasddr.restwithspringbootandjavaerudio.data.vo.v1.PersonVO;
+import com.douglasddr.restwithspringbootandjavaerudio.data.vo.v2.PersonVOV2;
+import com.douglasddr.restwithspringbootandjavaerudio.mapper.custom.PersonMapper;
 import com.douglasddr.restwithspringbootandjavaerudio.model.Person;
 import com.douglasddr.restwithspringbootandjavaerudio.repositories.PersonRepository;
 
@@ -22,6 +24,9 @@ public class PersonServices {
 	
 	@Autowired
 	PersonRepository repository;
+	
+	@Autowired
+	PersonMapper mapper;
 	
 	public List<PersonVO> findAll() {
 		logger.info("Finding all people!");
@@ -55,6 +60,13 @@ public class PersonServices {
 		logger.info("Deleting one person!");
 		Person entity = repository.findById(id).orElseThrow(() -> new RelationNotFoundException("No records found for this ID!"));
 		repository.delete(entity);
+	}
+
+	public PersonVOV2 createV2(PersonVOV2 personVO) {
+		logger.info("Creating one person!");
+		var entity = mapper.convertVoToEntity(personVO);
+		var vo = mapper.convertEntityToVo(repository.save(entity));
+		return vo;
 	}
 	
 }
