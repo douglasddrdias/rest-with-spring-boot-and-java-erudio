@@ -1,8 +1,9 @@
 package com.douglasddr.restwithspringbootandjavaerudio.services;
 
-import java.util.ArrayList;
+import static com.douglasddr.restwithspringbootandjavaerudio.mapper.DozerMapper.parseListObjects;
+import static com.douglasddr.restwithspringbootandjavaerudio.mapper.DozerMapper.parseObject;
+
 import java.util.List;
-import java.util.concurrent.atomic.AtomicLong;
 import java.util.logging.Logger;
 
 import javax.management.relation.RelationNotFoundException;
@@ -10,6 +11,7 @@ import javax.management.relation.RelationNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.douglasddr.restwithspringbootandjavaerudio.data.vo.v1.PersonVO;
 import com.douglasddr.restwithspringbootandjavaerudio.model.Person;
 import com.douglasddr.restwithspringbootandjavaerudio.repositories.PersonRepository;
 
@@ -21,30 +23,33 @@ public class PersonServices {
 	@Autowired
 	PersonRepository repository;
 	
-	public List<Person> findAll() {
-		logger.info("Finding all peplo!");
+	public List<PersonVO> findAll() {
+		logger.info("Finding all people!");
 
-		return repository.findAll();
+		return parseListObjects(repository.findAll(), PersonVO.class);
 	}
 	
-	public Person findById(Long id) throws RelationNotFoundException {
+	public PersonVO findById(Long id) throws RelationNotFoundException {
 		logger.info("Finding one person!");
-		Person person = new Person();
-		return repository.findById(id).orElseThrow(() -> new RelationNotFoundException("No records found for this ID!"));
+		var entity = repository.findById(id).orElseThrow(() -> new RelationNotFoundException("No records found for this ID!"));
+		return parseObject(entity, PersonVO.class);
 	}
 	
-	public Person create(Person person) {
+	public PersonVO create(PersonVO person) {
 		logger.info("Creating one person!");
-		return repository.save(person);
+		var entity = parseObject(person, Person.class);
+		var vo = parseObject(repository.save(entity), PersonVO.class);
+		return vo;
 	}
-	public Person update(Person person) throws RelationNotFoundException {
+	public PersonVO update(PersonVO person) throws RelationNotFoundException {
 		logger.info("Updating one person!");
 		Person entity = repository.findById(person.getId()).orElseThrow(() -> new RelationNotFoundException("No records found for this ID!"));
 		entity.setFirstName(person.getFirstName());
 		entity.setLastName(person.getLastName());
 		entity.setAddress(person.getAddress());
 		entity.setGender(person.getGender());
-		return repository.save(person);
+		var vo = parseObject(repository.save(entity), PersonVO.class);
+		return vo;
 	}
 	public void delete(Long id) throws RelationNotFoundException {
 		logger.info("Deleting one person!");
